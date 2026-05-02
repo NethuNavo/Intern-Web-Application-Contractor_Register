@@ -1,14 +1,15 @@
 <?php
 // Simple DB config used by standalone scripts.
-// Matches the settings in index.php.
+// Uses environment variables for deployment on Vercel or other hosts.
 
 function get_db_connection(): mysqli {
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "contractor_management";
+    $host = getenv('DB_HOST') ?: 'localhost';
+    $username = getenv('DB_USER') ?: 'root';
+    $password = getenv('DB_PASS') ?: '';
+    $database = getenv('DB_NAME') ?: 'contractor_management';
+    $port = intval(getenv('DB_PORT') ?: 3306);
 
-    $conn = new mysqli($host, $username, $password);
+    $conn = new mysqli($host, $username, $password, '', $port);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }

@@ -1,0 +1,16 @@
+# PHP and local development
+vendor/
+node_modules/
+*.log
+*.env
+*.cache
+.DS_Store
+.vscode/
+.idea/
+.htaccess
+
+# Composer
+composer.lock
+
+# OS files
+Thumbs.db
