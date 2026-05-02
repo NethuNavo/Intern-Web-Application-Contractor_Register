@@ -3,11 +3,19 @@
 // Uses environment variables for deployment on Vercel or other hosts.
 
 function get_db_connection(): mysqli {
-    $host = getenv('DB_HOST') ?: 'localhost';
-    $username = getenv('DB_USER') ?: 'root';
-    $password = getenv('DB_PASS') ?: '';
-    $database = getenv('DB_NAME') ?: 'contractor_management';
+    $host = getenv('DB_HOST');
+    $username = getenv('DB_USER');
+    $password = getenv('DB_PASS');
+    $database = getenv('DB_NAME');
     $port = intval(getenv('DB_PORT') ?: 3306);
+
+    if (!$host || !$username || !$database) {
+        die("Database connection is not configured. Please set DB_HOST, DB_USER, DB_PASS, and DB_NAME as environment variables.");
+    }
+
+    if ($host === 'localhost') {
+        $host = '127.0.0.1';
+    }
 
     $conn = new mysqli($host, $username, $password, '', $port);
     if ($conn->connect_error) {

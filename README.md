@@ -18,4 +18,4 @@ This project can be deployed to Vercel using the PHP runtime, but it requires an
    - `DB_PORT` (optional, default: 3306)
 4. Connect your GitHub repository to Vercel and deploy.
 
-> Note: Vercel does not provide a MySQL database. The application must connect to an external database host.
+> Note: Vercel does not provide a MySQL database. The application cannot use `localhost` or a local XAMPP database on Vercel; it must connect to an external MySQL host.
