@@ -3,18 +3,23 @@
 // Uses environment variables for deployment on Vercel or other hosts.
 
 function get_db_connection(): mysqli {
-    $host = getenv('DB_HOST');
-    $username = getenv('DB_USER');
-    $password = getenv('DB_PASS');
-    $database = getenv('DB_NAME');
+    $isVercel = getenv('VERCEL') !== false || getenv('VERCEL_ENV') !== false;
+    $host = getenv('DB_HOST') ?: ($isVercel ? null : '127.0.0.1');
+    $username = getenv('DB_USER') ?: ($isVercel ? null : 'root');
+    $password = getenv('DB_PASS') ?: ($isVercel ? null : '');
+    $database = getenv('DB_NAME') ?: ($isVercel ? null : 'contractor_management');
     $port = intval(getenv('DB_PORT') ?: 3306);
 
-    if (!$host || !$username || !$database) {
-        die("Database connection is not configured. Please set DB_HOST, DB_USER, DB_PASS, and DB_NAME as environment variables.");
+    if ($isVercel && (!$host || !$username || !$database)) {
+        die("Database connection is not configured for Vercel. Please set DB_HOST, DB_USER, DB_PASS, and DB_NAME as environment variables.");
     }
 
-    if ($host === 'localhost') {
-        $host = '127.0.0.1';
+    if (!$host || !$username || !$database) {
+        // Local fallback for XAMPP / default development environment
+        $host = $host ?: '127.0.0.1';
+        $username = $username ?: 'root';
+        $password = $password ?: '';
+        $database = $database ?: 'contractor_management';
     }
 
     $conn = new mysqli($host, $username, $password, '', $port);
