@@ -1,0 +1,7 @@
+{
+  "name": "contractor-register",
+  "private": true,
+  "dependencies": {
+    "vercel-php": "^0.9.0"
+  }
+}
